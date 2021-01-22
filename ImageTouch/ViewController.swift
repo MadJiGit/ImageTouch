@@ -16,7 +16,11 @@ class ViewController: UIViewController {
     var image: UIImage?
     @IBOutlet weak var brightnessSlider: UISlider!
     @IBOutlet weak var brightnessLabel: UILabel!
-    @IBOutlet weak var sliderValueLabel: UILabel!
+    @IBOutlet weak var sliderBrightnessValueLabel: UILabel!
+    
+    @IBOutlet weak var contrastSlider: UISlider!
+    @IBOutlet weak var contrastLabel: UILabel!
+    @IBOutlet weak var sliderContrastValueLabel: UILabel!
     
     let imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
     
@@ -26,10 +30,26 @@ class ViewController: UIViewController {
         setSliders()
     }
 
+    @IBAction func contrastSliderMoved(_ sender: UISlider) {
+        
+        imageContrast(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
+        let convertedValue = Int(sender.value * 100)
+        sliderContrastValueLabel.text = ""
+        sliderContrastValueLabel.text = String(format: "%2d", convertedValue)
+        
+        print("\(sliderBrightnessValueLabel.text)")
+        print("\(convertedValue)")
+    }
+    
     @IBAction func brightnessSliderMoved(_ sender: UISlider) {
-        print("\(sender.value)")
+        
         imageBrightness(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
-        sliderValueLabel.text = String(format: "%@.2d", sender.value)
+        let convertedValue = Int(sender.value * 100)
+        sliderBrightnessValueLabel.text = ""
+        sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
+        
+        print("\(sliderBrightnessValueLabel.text)")
+        print("\(convertedValue)")
     }
     
     @IBAction func searchButtonTapped(_ sender: Any) {
@@ -58,19 +78,28 @@ class ViewController: UIViewController {
 // MARK: - Edit image tools
 extension ViewController {
     
+    
+    // MARK: - Invert visibility of labels
     private func invertSlidersVisibility() {
         brightnessLabel.isHidden = !brightnessLabel.isHidden
         brightnessSlider.isHidden = !brightnessSlider.isHidden
+        sliderBrightnessValueLabel.isHidden = !sliderBrightnessValueLabel.isHidden
+        contrastLabel.isHidden = !contrastLabel.isHidden
+        contrastSlider.isHidden = !contrastSlider.isHidden
+        sliderContrastValueLabel.isHidden = !sliderContrastValueLabel.isHidden
     }
     
+    // MARK: - Set sliders init values
     private func setSliders() {
         invertSlidersVisibility()
-//        brightnessSlider.minimumValue = 0.0
-//        brightnessSlider.maximumValue = 0.0
         brightnessSlider.value = 0.0
-        sliderValueLabel.text = String(format: "%@.2d", brightnessSlider.value)
+        sliderBrightnessValueLabel.text = String(format: "%2d", brightnessSlider.value)
+        
+        contrastSlider.value = 0.0
+        sliderContrastValueLabel.text = String(format: "%2d", contrastSlider.value)
     }
     
+    // MARK: - Func Logic for Brightness
     func imageBrightness(imgView : UIImageView , sliderValue : CGFloat, image: UIImage){
         
         guard let aCGImage = image.cgImage else {
@@ -90,13 +119,8 @@ extension ViewController {
         print("brightness")
     }
     
+    // MARK: - Func Logic for Contrast
     func imageContrast(imgView : UIImageView , sliderValue : CGFloat, image: UIImage){
-        
-//        guard let aUIImage = image else {
-//            return
-//        }
-//
-//        let aCGImage = aUIImage.cgImage
         
         guard let aCGImage = image.cgImage else {
             return
@@ -116,6 +140,7 @@ extension ViewController {
     }
 }
 
+// MARK: - Image processing
 extension ViewController {
     
     // MARK: - Save image to photo library
@@ -158,7 +183,10 @@ extension ViewController {
         invertSlidersVisibility()
         
     }
-    
+}
+
+
+extension ViewController {
     
     // MARK: - Show Alert
     func showAlert(withMessage message: String, title: String = "") {
