@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  EditViewController.swift
 //  ImageTouch
 //
 //  Created by Madji on 21.01.21.
@@ -8,14 +8,14 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController {
+class EditViewController: UIViewController {
     
     //MARK: Properties
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
-    @IBOutlet weak var imageView: UIImageView!
-    var image: UIImage?
+    @IBOutlet weak var photoImageView: UIImageView!
+    var photoImage: UIImage?
     
     //MARK: Sliders properties
     @IBOutlet weak var brightnessSlider: UISlider!
@@ -31,6 +31,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        photoImageView?.image = photoImage
+        
         setSliders()
     }
     
@@ -43,10 +46,21 @@ class ViewController: UIViewController {
     
     @IBAction func shareButtonTapped(_ sender: Any) {
         
+        guard let image = photoImageView.image else {
+            return
+        }
+        
+        let shareSheet = UIActivityViewController (
+            activityItems: [
+                image,
+            ],
+            applicationActivities: nil
+        )
+        present(shareSheet, animated: true)
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let imageToSave = imageView.image else {
+        guard let imageToSave = photoImageView.image else {
             return
         }
         
@@ -56,7 +70,7 @@ class ViewController: UIViewController {
     //MARK: - Contrast slider function
     @IBAction func contrastSliderMoved(_ sender: UISlider) {
         
-        imageContrast(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
+        imageContrast(imgView: photoImageView, sliderValue: CGFloat(sender.value), image: photoImage!)
         let convertedValue = Int(sender.value * 100)
         sliderContrastValueLabel.text = ""
         sliderContrastValueLabel.text = String(format: "%2d", convertedValue)
@@ -65,7 +79,7 @@ class ViewController: UIViewController {
     //MARK: - Brightness slider function
     @IBAction func brightnessSliderMoved(_ sender: UISlider) {
         
-        imageBrightness(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
+        imageBrightness(imgView: photoImageView, sliderValue: CGFloat(sender.value), image: photoImage!)
         let convertedValue = Int(sender.value * 100)
         sliderBrightnessValueLabel.text = ""
         sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
@@ -73,7 +87,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - Edit image tools
-extension ViewController {
+extension EditViewController {
     
     // MARK: - Invert visibility of labels
     private func invertSlidersVisibility() {
@@ -136,7 +150,7 @@ extension ViewController {
 }
 
 // MARK: - Image processing
-extension ViewController {
+extension EditViewController {
     
     // MARK: - Save image to photo library
     @objc func saveImage(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
@@ -157,7 +171,7 @@ extension ViewController {
     func showImage(with image: UIImage?) {
         
         guard let image = image else { return }
-        self.imageView.image = self.image
+        self.photoImageView.image = self.photoImage
         
         invertSlidersVisibility()
         
@@ -165,7 +179,7 @@ extension ViewController {
 }
 
 
-extension ViewController {
+extension EditViewController {
     
     // MARK: - Show Alert
     func showAlert(withMessage message: String, title: String = "") {
