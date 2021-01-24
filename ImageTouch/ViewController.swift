@@ -10,9 +10,14 @@ import Foundation
 
 class ViewController: UIViewController {
     
-
+    //MARK: Properties
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
     @IBOutlet weak var imageView: UIImageView!
     var image: UIImage?
+    
+    //MARK: Sliders properties
     @IBOutlet weak var brightnessSlider: UISlider!
     @IBOutlet weak var brightnessLabel: UILabel!
     @IBOutlet weak var sliderBrightnessValueLabel: UILabel!
@@ -21,31 +26,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var contrastLabel: UILabel!
     @IBOutlet weak var sliderContrastValueLabel: UILabel!
     
-    let imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setSliders()
     }
-
-    @IBAction func contrastSliderMoved(_ sender: UISlider) {
+    
+    
+    // MARK: - Navigation bar buttons
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
         
-        imageContrast(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
-        let convertedValue = Int(sender.value * 100)
-        sliderContrastValueLabel.text = ""
-        sliderContrastValueLabel.text = String(format: "%2d", convertedValue)
     }
     
-    @IBAction func brightnessSliderMoved(_ sender: UISlider) {
+    @IBAction func shareButtonTapped(_ sender: Any) {
         
-        imageBrightness(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
-        let convertedValue = Int(sender.value * 100)
-        sliderBrightnessValueLabel.text = ""
-        sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
     }
-    
-
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let imageToSave = imageView.image else {
@@ -55,11 +53,27 @@ class ViewController: UIViewController {
         UIImageWriteToSavedPhotosAlbum(imageToSave, self, #selector(saveImage(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
+    //MARK: - Contrast slider function
+    @IBAction func contrastSliderMoved(_ sender: UISlider) {
+        
+        imageContrast(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
+        let convertedValue = Int(sender.value * 100)
+        sliderContrastValueLabel.text = ""
+        sliderContrastValueLabel.text = String(format: "%2d", convertedValue)
+    }
+    
+    //MARK: - Brightness slider function
+    @IBAction func brightnessSliderMoved(_ sender: UISlider) {
+        
+        imageBrightness(imgView: imageView, sliderValue: CGFloat(sender.value), image: image!)
+        let convertedValue = Int(sender.value * 100)
+        sliderBrightnessValueLabel.text = ""
+        sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
+    }
 }
 
 // MARK: - Edit image tools
 extension ViewController {
-    
     
     // MARK: - Invert visibility of labels
     private func invertSlidersVisibility() {
@@ -80,7 +94,7 @@ extension ViewController {
         sliderContrastValueLabel.text = String(format: "%2d", (contrastSlider.value * 100))
     }
     
-    // MARK: - Func Logic for Brightness
+    // MARK: - Brightness logic
     func imageBrightness(imgView : UIImageView , sliderValue : CGFloat, image: UIImage){
         
         guard let aCGImage = image.cgImage else {
@@ -100,7 +114,7 @@ extension ViewController {
         print("brightness")
     }
     
-    // MARK: - Func Logic for Contrast
+    // MARK: - Contrast logic
     func imageContrast(imgView : UIImageView , sliderValue : CGFloat, image: UIImage){
         
         guard let aCGImage = image.cgImage else {
@@ -137,23 +151,7 @@ extension ViewController {
     
     }
     
-    // MARK: - Get image with URL
-    func getImage(with imageString: String) {
-        
-        let url = URL(string: imageString)!
-        
-        let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, _) in
-            if let data = data {
-                DispatchQueue.main.async {
-                    if let image = UIImage(data: data) {
-                        self?.image = image;
-                    }
-                }
-            }
-        }
-        
-        dataTask.resume()
-    }
+
     
     // MARK: - Show image to View
     func showImage(with image: UIImage?) {

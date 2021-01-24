@@ -11,6 +11,8 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchBarTextView: UITextField!
     @IBOutlet weak var searchButton: UIButton!
+    
+    let imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,22 @@ class SearchViewController: UIViewController {
         searchBarTextView.text = ""
     }
     
-
+    // MARK: - Get image with URL
+    func getImage(with imageString: String) {
+        
+        let url = URL(string: imageString)!
+        
+        let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, _) in
+            if let data = data {
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data) {
+                        self?.image = image;
+                    }
+                }
+            }
+        }
+        
+        dataTask.resume()
+    }
 
 }

@@ -89,7 +89,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="-2" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-EX-413" userLabel="Contrast Slider">
-                                <rect key="frame" x="120" y="91" width="227" height="31"/>
+                                <rect key="frame" x="120" y="91" width="241" height="31"/>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" name="AccentColor"/>
                                 <color key="thumbTintColor" red="0.54351695899999997" green="0.95740924000000005" blue="0.98912602660000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -114,7 +114,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="huk-uI-ye5">
-                                <rect key="frame" x="120" y="143.5" width="227" height="31"/>
+                                <rect key="frame" x="120" y="143.5" width="241" height="31"/>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" name="AccentColor"/>
                                 <color key="thumbTintColor" red="0.54351695899999997" green="0.95740924000000005" blue="0.98912602660000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -146,24 +146,44 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXW-1j-76t">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                <items>
+                                    <navigationItem title="Title" id="oXN-Ut-DHf">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="gMO-hq-8WH">
+                                            <connections>
+                                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="KDN-8K-8xe"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Share" id="JR3-ST-IWB">
+                                            <connections>
+                                                <action selector="shareButtonTapped:" destination="BYZ-38-t0r" id="oGK-cA-N4o"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.8185358203138815" green="1" blue="0.83708229542376844" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Kcf-t9-uun" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0rS-Il-TUe"/>
+                            <constraint firstItem="fXW-1j-76t" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="1ki-IF-Tur"/>
                             <constraint firstItem="huk-uI-ye5" firstAttribute="top" secondItem="ybl-EX-413" secondAttribute="bottom" constant="22.5" id="2jI-QZ-a3Y"/>
                             <constraint firstItem="5KO-h5-2t3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4OE-rc-tKq"/>
                             <constraint firstItem="ybl-EX-413" firstAttribute="leading" secondItem="kgl-VQ-eIc" secondAttribute="trailing" constant="2" id="5bA-7f-90B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5KO-h5-2t3" secondAttribute="bottom" constant="30" id="5r8-QT-UoB"/>
                             <constraint firstItem="Kcf-t9-uun" firstAttribute="top" secondItem="eDS-aV-rGu" secondAttribute="bottom" constant="33" id="6cy-DB-bTV"/>
+                            <constraint firstItem="fXW-1j-76t" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="BMl-3t-E9z"/>
                             <constraint firstItem="aDE-JB-BVJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Cbq-AB-lrX"/>
                             <constraint firstItem="aDE-JB-BVJ" firstAttribute="top" secondItem="NAc-99-ziM" secondAttribute="bottom" constant="35" id="D7y-pR-1ox"/>
                             <constraint firstItem="kgl-VQ-eIc" firstAttribute="leading" secondItem="NAc-99-ziM" secondAttribute="trailing" constant="7.5" id="H3U-9a-znN"/>
                             <constraint firstItem="eDS-aV-rGu" firstAttribute="bottom" secondItem="kgl-VQ-eIc" secondAttribute="bottom" constant="53.5" id="KO2-Ok-Mcd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5KO-h5-2t3" secondAttribute="trailing" constant="155" id="P7O-uh-ND1"/>
                             <constraint firstItem="Kcf-t9-uun" firstAttribute="top" secondItem="aDE-JB-BVJ" secondAttribute="bottom" constant="35" id="QPW-qL-4mi"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ybl-EX-413" secondAttribute="trailing" constant="30" id="YjC-L0-uyP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="huk-uI-ye5" secondAttribute="trailing" constant="30" id="aqI-x1-Stx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ybl-EX-413" secondAttribute="trailing" constant="16" id="YjC-L0-uyP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="huk-uI-ye5" secondAttribute="trailing" constant="16" id="aqI-x1-Stx"/>
+                            <constraint firstItem="fXW-1j-76t" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cJ5-YY-0Yx"/>
                             <constraint firstItem="eDS-aV-rGu" firstAttribute="leading" secondItem="aDE-JB-BVJ" secondAttribute="trailing" constant="1" id="g3K-Ot-6EU"/>
                             <constraint firstItem="NAc-99-ziM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="jO8-eh-ItA"/>
                             <constraint firstItem="huk-uI-ye5" firstAttribute="leading" secondItem="eDS-aV-rGu" secondAttribute="trailing" constant="2" id="mCJ-1W-ztH"/>
@@ -174,9 +194,11 @@
                     <connections>
                         <outlet property="brightnessLabel" destination="aDE-JB-BVJ" id="clv-Aq-d84"/>
                         <outlet property="brightnessSlider" destination="huk-uI-ye5" id="NeP-us-ULf"/>
+                        <outlet property="cancelButton" destination="gMO-hq-8WH" id="8Zb-WB-6FT"/>
                         <outlet property="contrastLabel" destination="NAc-99-ziM" id="TAp-CG-YGI"/>
                         <outlet property="contrastSlider" destination="ybl-EX-413" id="xfB-eE-Edx"/>
                         <outlet property="imageView" destination="Kcf-t9-uun" id="fcf-8W-z7G"/>
+                        <outlet property="shareButton" destination="JR3-ST-IWB" id="X6t-uN-74i"/>
                         <outlet property="sliderBrightnessValueLabel" destination="eDS-aV-rGu" id="1cL-WA-6gs"/>
                         <outlet property="sliderContrastValueLabel" destination="kgl-VQ-eIc" id="fro-9V-hP2"/>
                     </connections>
