@@ -10,8 +10,7 @@ import Foundation
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var searchBarTextView: UITextField!
-    @IBOutlet weak var searchButton: UIButton!
+
     @IBOutlet weak var imageView: UIImageView!
     var image: UIImage?
     @IBOutlet weak var brightnessSlider: UISlider!
@@ -46,18 +45,7 @@ class ViewController: UIViewController {
         sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
     }
     
-    @IBAction func searchButtonTapped(_ sender: Any) {
-        
-        guard let text = searchBarTextView.text else {
-            return
-        }
-        
-        print(text)
-        getImage(with: imageString)
-        showImage(with: image)
-        
-        searchBarTextView.text = ""
-    }
+
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let imageToSave = imageView.image else {
