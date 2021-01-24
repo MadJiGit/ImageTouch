@@ -36,9 +36,6 @@ class ViewController: UIViewController {
         let convertedValue = Int(sender.value * 100)
         sliderContrastValueLabel.text = ""
         sliderContrastValueLabel.text = String(format: "%2d", convertedValue)
-        
-        print("\(sliderBrightnessValueLabel.text)")
-        print("\(convertedValue)")
     }
     
     @IBAction func brightnessSliderMoved(_ sender: UISlider) {
@@ -47,9 +44,6 @@ class ViewController: UIViewController {
         let convertedValue = Int(sender.value * 100)
         sliderBrightnessValueLabel.text = ""
         sliderBrightnessValueLabel.text = String(format: "%2d", convertedValue)
-        
-        print("\(sliderBrightnessValueLabel.text)")
-        print("\(convertedValue)")
     }
     
     @IBAction func searchButtonTapped(_ sender: Any) {
@@ -92,11 +86,10 @@ extension ViewController {
     // MARK: - Set sliders init values
     private func setSliders() {
         invertSlidersVisibility()
-        brightnessSlider.value = 0.0
+
         sliderBrightnessValueLabel.text = String(format: "%2d", brightnessSlider.value)
-        
-        contrastSlider.value = 0.0
-        sliderContrastValueLabel.text = String(format: "%2d", contrastSlider.value)
+
+        sliderContrastValueLabel.text = String(format: "%2d", (contrastSlider.value * 100))
     }
     
     // MARK: - Func Logic for Brightness

@@ -58,7 +58,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-EX-413" userLabel="Contrast Slider">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="-2" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="ybl-EX-413" userLabel="Contrast Slider">
                                 <rect key="frame" x="120" y="111" width="227" height="31"/>
                                 <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="maximumTrackTintColor" name="AccentColor"/>
@@ -154,8 +154,8 @@
                         <outlet property="imageView" destination="Kcf-t9-uun" id="fcf-8W-z7G"/>
                         <outlet property="searchBarTextView" destination="uCD-4z-iwz" id="h5W-Jh-5x6"/>
                         <outlet property="searchButton" destination="2OT-Vq-usr" id="tsD-HW-hyj"/>
+                        <outlet property="sliderBrightnessValueLabel" destination="eDS-aV-rGu" id="1cL-WA-6gs"/>
                         <outlet property="sliderContrastValueLabel" destination="kgl-VQ-eIc" id="fro-9V-hP2"/>
-                        <outlet property="sliderValueLabel" destination="eDS-aV-rGu" id="4fP-EF-gBr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
