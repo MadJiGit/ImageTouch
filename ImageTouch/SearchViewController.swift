@@ -9,24 +9,25 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    //MARK: Properties
     @IBOutlet weak var searchBarTextView: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
-    
-    
     var photoImage: UIImage?
     
-    let imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+    // MARK: - HARD codeed link for image
+    var imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
     
     override func viewDidLoad() {
+        
+        hideKeyboardWhenTappedAround()
         super.viewDidLoad()
     }
     
-    
+    // MARK: - This image will be edited into EditViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        // Determine what the segue destination is
         if segue.destination is EditViewController
         {
             let vc = segue.destination as? EditViewController
@@ -34,29 +35,27 @@ class SearchViewController: UIViewController {
         }
     }
     
+    // MARK: - Edit button logic
     @IBAction func editButtonTapped(_ sender: Any) {
-        /*
-        let vc = EditViewController(nibName: "EditViewController", bundle: nil)
-        vc.photoImage = photoImage
-        self.navigationController?.pushViewController(vc, animated: true)
- */
-        
-        
-        
+
     }
     
-    
+    // MARK: - Temporayr search tab
     @IBAction func searchButtonTapped(_ sender: Any) {
         
         guard let text = searchBarTextView.text else {
             return
         }
+        
+        if (text != "") {
+            imageString = text
+        }
+        
         getImage(with: imageString)
-        print(text)        
+        print(imageString)
+        
         searchBarTextView.text = ""
     }
-    
-    
 }
 
 extension SearchViewController {
@@ -70,7 +69,6 @@ extension SearchViewController {
             if let data = data {
                 DispatchQueue.main.async {
                     if let image = UIImage(data: data) {
-                        
                         self?.photoImage = image;
                         self?.photoImageView.image = image
                     }
@@ -80,5 +78,31 @@ extension SearchViewController {
         
         dataTask.resume()
     }
+}
+
+extension UIViewController {
     
+    // MARK: - Keyboard Stuff
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    
+    // MARK: - Dismiss keyboard
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    // MARK: - Show Alert
+    func showAlert(withMessage message: String, title: String = "") {
+        
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
 }
