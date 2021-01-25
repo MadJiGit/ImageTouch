@@ -52,7 +52,7 @@ class SearchViewController: UIViewController {
         }
         
         getImage(with: imageString)
-        print(imageString)
+//        print(imageString)
         
         searchBarTextView.text = ""
     }
