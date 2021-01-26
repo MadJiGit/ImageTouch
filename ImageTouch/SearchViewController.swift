@@ -12,8 +12,7 @@ class SearchViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var searchBarTextView: UITextField!
     @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
     var photoImage: UIImage?
     
     // MARK: - HARD codeed link for image
@@ -44,7 +43,6 @@ class SearchViewController: UIViewController {
             imageString = text
         }
         
-        getImage(with: imageString)
 //        print(imageString)
         
         searchBarTextView.text = ""
@@ -73,7 +71,6 @@ extension SearchViewController {
                 DispatchQueue.main.async {
                     if let image = UIImage(data: data) {
                         self?.photoImage = image;
-                        self?.photoImageView.image = image
                     }
                 }
             }
