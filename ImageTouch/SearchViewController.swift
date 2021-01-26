@@ -16,13 +16,12 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBarTextView: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var photoImage: UIImage?
     var photoItems: [PhotoItem] = []
     
     // MARK: - HARD codeed link for image
-    var imageString: String?
+    var imageString = ""
     let imageString1 = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
     let imageString2 = "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
     let imageString3 = "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/advice/maps-satellite-images/satellite-image-of-globe.jpg"
@@ -33,8 +32,9 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        hideKeyboardWhenTappedAround()
+        searchBarTextView.delegate = self
     }
+    
     
     // MARK: - This image will be edited into EditViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -44,10 +44,8 @@ class SearchViewController: UIViewController {
         }
     }
     
-    // MARK: - Temporayr search tab
+    // MARK: - Temporary search tab
     @IBAction func searchButtonTapped(_ sender: Any) {
-        
-        activityIndicatorView.startAnimating()
         
         guard let text = searchBarTextView.text else {
             return
@@ -59,19 +57,18 @@ class SearchViewController: UIViewController {
         
         loadAllItems()
         
-        print(imageString)
-        
-        loadPhotoItem(by: text)
-        
         searchBarTextView.text = ""
     }
     
+    // MARK: - Method to load all images
     func loadAllItems() {
+        loadPhotoItem(by: imageString)
         loadPhotoItem(by: imageString1)
         loadPhotoItem(by: imageString2)
         loadPhotoItem(by: imageString3)
     }
     
+    // MARK: - Load images one by one 
     func loadPhotoItem(by imageURL: String) {
         
         getImage(by: imageURL) { (photoItem, success) in
@@ -82,6 +79,7 @@ class SearchViewController: UIViewController {
             }
                 
             self.photoItems.append(photoItem)
+            
             self.tableView.reloadData()
         }
     }
@@ -122,11 +120,26 @@ extension SearchViewController {
 
 extension SearchViewController: UITableViewDelegate {
     
+    // MARK: - Calculate height of cell
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      
+        let scaldeSize = photoItems[indexPath.row].scaledSize
+        
+        return scaldeSize.height + 10 // Top + Bottom margins
+    }
     
+    // MARK: - Prepare image for sending to edit scene
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        photoImage = photoItems[indexPath.row].image
+        performSegue(withIdentifier: "SearchToEditScene", sender: nil)
+    }
 }
 
 extension SearchViewController: UITableViewDataSource {
     
+    // MARK: - TableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photoItems.count
     }
@@ -147,19 +160,17 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
+
+extension SearchViewController: UITextFieldDelegate {
+    
+    // MARK: - Keyboard - method to hide keyboard when hit return button on it
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+}
+
 extension UIViewController {
-    
-    // MARK: - Keyboard Stuff
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    
-    // MARK: - Dismiss keyboard
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
     
     // MARK: - Show Alert
     func showAlert(withMessage message: String, title: String = "") {
