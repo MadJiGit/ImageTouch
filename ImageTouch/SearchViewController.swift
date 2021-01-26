@@ -20,24 +20,17 @@ class SearchViewController: UIViewController {
     var imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         hideKeyboardWhenTappedAround()
-        super.viewDidLoad()
     }
     
     // MARK: - This image will be edited into EditViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.destination is EditViewController
-        {
-            let vc = segue.destination as? EditViewController
-            vc?.photoImage = photoImage
+        if let editViewController = segue.destination as? EditViewController {
+            editViewController.photoImage = photoImage
         }
-    }
-    
-    // MARK: - Edit button logic
-    @IBAction func editButtonTapped(_ sender: Any) {
-
     }
     
     // MARK: - Temporayr search tab
@@ -55,15 +48,25 @@ class SearchViewController: UIViewController {
 //        print(imageString)
         
         searchBarTextView.text = ""
+                
+        printFlickr()
     }
 }
 
 extension SearchViewController {
     
+    // MARK: - Get data from FLICKR
+    private func printFlickr() {
+        
+    }
+    
     // MARK: - Get image with URL
     private func getImage(with imageString: String) {
         
-        let url = URL(string: imageString)!
+        guard let url = URL(string: imageString) else {
+            print("Error with URL")
+            return
+        }
         
         let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, _) in
             if let data = data {

@@ -59,7 +59,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="editButtonTapped:" destination="MGc-8b-ZJH" eventType="touchUpInside" id="RZr-8F-cIM"/>
                                     <segue destination="BYZ-38-t0r" kind="presentation" id="0tw-5y-r4M"/>
                                 </connections>
                             </button>
