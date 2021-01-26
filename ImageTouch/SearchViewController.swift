@@ -7,19 +7,31 @@
 
 import UIKit
 
+
+typealias ImageDownloadResult = (PhotoItem?, Bool) -> Void
+
 class SearchViewController: UIViewController {
     
     //MARK: Properties
     @IBOutlet weak var searchBarTextView: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
     var photoImage: UIImage?
+    var photoItems: [PhotoItem] = []
     
     // MARK: - HARD codeed link for image
-    var imageString = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+    var imageString: String?
+    let imageString1 = "https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+    let imageString2 = "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+    let imageString3 = "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/advice/maps-satellite-images/satellite-image-of-globe.jpg"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         hideKeyboardWhenTappedAround()
     }
@@ -35,6 +47,8 @@ class SearchViewController: UIViewController {
     // MARK: - Temporayr search tab
     @IBAction func searchButtonTapped(_ sender: Any) {
         
+        activityIndicatorView.startAnimating()
+        
         guard let text = searchBarTextView.text else {
             return
         }
@@ -43,40 +57,93 @@ class SearchViewController: UIViewController {
             imageString = text
         }
         
-//        print(imageString)
+        loadAllItems()
+        
+        print(imageString)
+        
+        loadPhotoItem(by: text)
         
         searchBarTextView.text = ""
+    }
+    
+    func loadAllItems() {
+        loadPhotoItem(by: imageString1)
+        loadPhotoItem(by: imageString2)
+        loadPhotoItem(by: imageString3)
+    }
+    
+    func loadPhotoItem(by imageURL: String) {
+        
+        getImage(by: imageURL) { (photoItem, success) in
+            
+            guard let photoItem = photoItem else {
+                print("")
+                return
+            }
                 
-        printFlickr()
+            self.photoItems.append(photoItem)
+            self.tableView.reloadData()
+        }
     }
 }
 
 extension SearchViewController {
     
-    // MARK: - Get data from FLICKR
-    private func printFlickr() {
-        
-    }
-    
     // MARK: - Get image with URL
-    private func getImage(with imageString: String) {
+    private func getImage(by imageUrlString: String, completion: @escaping ImageDownloadResult ) {
         
-        guard let url = URL(string: imageString) else {
+        guard let url = URL(string: imageUrlString) else {
             print("Error with URL")
+            completion(nil, false)
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, _) in
-            if let data = data {
-                DispatchQueue.main.async {
-                    if let image = UIImage(data: data) {
-                        self?.photoImage = image;
-                    }
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, response, _) in
+            
+            guard let data = data else {
+                completion(nil, false)
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let image = UIImage(data: data) {
+                    var photoItem = PhotoItem()
+                    photoItem.image = image
+                    photoItem.urlString = imageUrlString
+                    completion(photoItem, true)
+                } else {
+                    completion(nil, false)
                 }
             }
         }
-        
         dataTask.resume()
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+    
+    
+}
+
+extension SearchViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return photoItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        var cell = UITableViewCell()
+        
+        let item = photoItems[indexPath.row]
+        cell = tableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath)
+        
+        if let photoCell = cell as? PhotoTableViewCell {
+            photoCell.photoImageView.image = item.image
+            photoCell.photoUrlLabel.text = item.urlString
+        }
+        
+        return cell
     }
 }
 
